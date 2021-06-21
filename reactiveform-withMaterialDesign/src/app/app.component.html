@@ -13,19 +13,24 @@
             <!-- First Name -->
             <mat-form-field>
                 <input matInput formControlName="fname" placeholder="First Name" />
-             <mat-error *ngIf="fname.invalid">
+             <mat-error *ngIf="fname.invalid && fname.touched">
               Please Enter Your First Name
              </mat-error>
             </mat-form-field>
              <!-- Last Name -->
              <mat-form-field>
                 <input matInput formControlName="lname" placeholder="Last Name"/>
-              <mat-error *ngIf="lname.errors">
+              <mat-error *ngIf="lname.errors && lname.touched">
                 Please Enter Your Last Name
                </mat-error>
             </mat-form-field>
+            <!-- Email Address -->
+            <mat-form-field>
+              <input matInput  formControlName="email" placeholder="Email">
+              <mat-error *ngIf="email.invalid && email.touched ">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
             <hr/>
-            <button class="btn btn-primary" [disabled]="fname.invalid || lname.invalid" >Save Data</button>
+            <button class="btn btn-primary" [disabled]="fname.invalid || lname.invalid || email.invalid" >Save Data</button>
            </form>
         </div>
       </div>
@@ -35,13 +40,24 @@
           <button class="btn btn-primary" (click)="fetchData()">Fetch Data</button>
         </div>
         <div class="col-xs-12 col-md-8 col-md-offset-3" *ngIf="restData.length>= 1" >
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let item of restData">
-              Id: {{item.id}}  --   FirstName : {{item.firstName}}  --   LastName: {{item.lastName}}
-            </li>
-          </ul>
+         <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Id</th>
+              <th scope="col">FName</th>
+              <th scope="col">LName</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of restData; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{item.id}}</td>
+              <td>{{ item.fname}}</td>
+              <td>{{ item.lname}}</td>
+            </tr>
+            </tbody>
+        </table>
         </div>
       </div>
-
-
   </div>
